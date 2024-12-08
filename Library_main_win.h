@@ -222,16 +222,18 @@ long CALLBACK Library_main_win(HWND hwnd, unsigned int message, WPARAM wp, LPARA
 			ShowWindow(hBook_shelf, HIDE_WINDOW);
 			ShowWindow(x_btn, HIDE_WINDOW);
 			ShowWindow(new_file_btn, HIDE_WINDOW);
-			ShowWindow(new_file, HIDE_WINDOW);
+			ShowWindow(hSavedPaper, HIDE_WINDOW);
 			ShowWindow(save_btn, HIDE_WINDOW);
 			ShowWindow(paper_btn, HIDE_WINDOW);
 			ShowWindow(file_name, HIDE_WINDOW);
 			ShowWindow(created_file_name, HIDE_WINDOW);
+			ShowWindow(save_edited_file_, HIDE_WINDOW);
 		}
 		break;
 		case save_btn_:
 		{
 			save_file(hwnd);
+			
 			
 		}
 		break;
@@ -271,6 +273,7 @@ long CALLBACK Library_main_win(HWND hwnd, unsigned int message, WPARAM wp, LPARA
 		{
 			if (buf->saved_file) {
 				open_saved_file(hwnd, (struct Account)*buf);
+				ShowWindow(new_file_btn, HIDE_WINDOW);
 			}
 			else {
 					open_paper(hwnd, (struct Account)*buf);
@@ -298,6 +301,9 @@ long CALLBACK Library_main_win(HWND hwnd, unsigned int message, WPARAM wp, LPARA
 			ShowWindow(gmail, HIDE_WINDOW);
 			ShowWindow(complete_registration, HIDE_WINDOW);
 			ShowWindow(back, HIDE_WINDOW);
+			if (paper) {
+				ShowWindow(paper_btn, HIDE_WINDOW);
+			}
 
 			main_page(hwnd);
 		}

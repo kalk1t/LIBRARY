@@ -1,22 +1,37 @@
 void _new_file(HWND hwnd) {
-	x = 400;
-	y = 200;
-	w = 300;
-	h = 300;
-	new_file = CreateWindowA("edit", "", WS_VISIBLE | WS_CHILD| WS_BORDER|ES_MULTILINE, x, y, w, h, hwnd, (HMENU)new_file_text, 0, 0);
+	if (new_file) {
+		ShowWindow(new_file, SHOW_OPENWINDOW);
+	}
+	else {
+		x = 400;
+		y = 200;
+		w = 300;
+		h = 300;
+		new_file = CreateWindowA("edit", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE, x, y, w, h, hwnd, (HMENU)new_file_text, 0, 0);
+	}
 
-	x = 450;
-	y = 540;
-	w = 70;
-	h = 21;
-	save_btn = CreateWindowA("button", "", WS_VISIBLE |WS_CHILD | BS_BITMAP, x, y, w, h, hwnd, (HMENU)save_btn_, 0, 0);
-	SendMessageA(save_btn, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)save_btn_bmp);
+	if (save_btn) {
+		ShowWindow(save_btn, SHOW_OPENWINDOW);
+	}
+	else {
+		x = 450;
+		y = 540;
+		w = 70;
+		h = 21;
+		save_btn = CreateWindowA("button", "", WS_VISIBLE | WS_CHILD | BS_BITMAP, x, y, w, h, hwnd, (HMENU)save_btn_, 0, 0);
+		SendMessageA(save_btn, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)save_btn_bmp);
+	}
 
-	x = 400;
-	y = 170;
-	w = 100;
-	h = 20;
-	file_name=CreateWindowA("edit", "", WS_VISIBLE |WS_CHILD, x, y, w, h, hwnd, (HMENU)file_name_, 0, 0);
+	if (file_name) {
+		ShowWindow(file_name, SHOW_OPENWINDOW);
+	}
+	else {
+		x = 400;
+		y = 170;
+		w = 100;
+		h = 20;
+		file_name = CreateWindowA("edit", "", WS_VISIBLE | WS_CHILD, x, y, w, h, hwnd, (HMENU)file_name_, 0, 0);
+	}
 }
 
 void save_file(HWND hwnd) {
@@ -45,7 +60,7 @@ void save_file(HWND hwnd) {
 		ShowWindow(hBook_shelf, HIDE_WINDOW);
 		ShowWindow(x_btn, HIDE_WINDOW);
 		ShowWindow(new_file_btn, HIDE_WINDOW);
-		saved = 1;
+		saved++;
 	}
 	else {
 		MessageBoxA(hwnd, "Error opening file", "error", MB_OK);
@@ -114,16 +129,18 @@ void save_edited_file(HWND hwnd, Account acc) {
 
 	errn = fopen_s(&newFile, fn, "a+");
 	if (newFile > 0) {
-		if (fwrite(max_text, sizeof(max_text), 1, newFile) != 1) {
+		if (fwrite(max_text, strlen(max_text), 1, newFile) != 1) {
 			return;
 		}
 		MessageBoxA(hwnd, "Successfully saved a file", "Great", MB_OK);
 		ShowWindow(new_file, HIDE_WINDOW);
 		ShowWindow(save_edited_file_, HIDE_WINDOW);
-		ShowWindow(hBook_shelf, HIDE_WINDOW);
-		ShowWindow(x_btn, HIDE_WINDOW);
-		ShowWindow(new_file_btn, HIDE_WINDOW);
-		ShowWindow(paper_btn, HIDE_WINDOW);
+		//ShowWindow(hBook_shelf, HIDE_WINDOW);
+		//ShowWindow(x_btn, HIDE_WINDOW);
+		ShowWindow(new_file_btn, SHOW_OPENWINDOW);
+		//ShowWindow(paper_btn, HIDE_WINDOW);
+		ShowWindow(ppr, HIDE_WINDOW);
+		ShowWindow(hSavedPaper, HIDE_WINDOW);
 		
 	}
 	else {
@@ -149,26 +166,31 @@ void open_saved_file(HWND hwnd, Account acc) {
 
 		hl = fread(txt, sizeof(txt), 1, f);
 
-		if (new_file) {
-			ShowWindow(new_file, SHOW_OPENWINDOW);
+		if (hSavedPaper) {
+			ShowWindow(hSavedPaper, SHOW_OPENWINDOW);
 		}
 		else {
 			x = 400;
 			y = 200;
 			w = 300;
 			h = 300;
-			new_file = CreateWindowA("edit", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE, x, y, w, h, hwnd, (HMENU)ppr_, 0, 0);
+			hSavedPaper = CreateWindowA("edit", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE, x, y, w, h, hwnd, (HMENU)ppr_, 0, 0);
+			SendDlgItemMessageA(hwnd, ppr_, WM_SETTEXT, strlen(txt), (LPARAM)txt);
 		}
-		SendDlgItemMessageA(hwnd, ppr_, WM_SETTEXT, strlen(txt), (LPARAM)txt);
 		DWORD er;
 		er=GetLastError();
 
-		x = 450;
-		y = 540;
-		w = 70;
-		h = 21;
-		save_edited_file_ = CreateWindowA("button", "", WS_VISIBLE | WS_CHILD | BS_BITMAP, x, y, w, h, hwnd, (HMENU)save_edited_file_btn_, 0, 0);
-		SendMessageA(save_edited_file_, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)save_btn_bmp);
+		if (save_edited_file_) {
+			ShowWindow(save_edited_file_,SHOW_OPENWINDOW);
+		}
+		else {
+			x = 450;
+			y = 540;
+			w = 70;
+			h = 21;
+			save_edited_file_ = CreateWindowA("button", "", WS_VISIBLE | WS_CHILD | BS_BITMAP, x, y, w, h, hwnd, (HMENU)save_edited_file_btn_, 0, 0);
+			SendMessageA(save_edited_file_, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)save_btn_bmp);
+		}
 	}
 	else {
 		perror("opening file");

@@ -80,7 +80,7 @@ HDC dc = 0;
 HWND Usr, Usrnm, Psw, Psswrd, sign_in, registr;//main page handlers
 HWND rgstr_dtls, ncknm, psswrd, nm, lstnm, dy, d, mnth, m, yr, yea, gmail, complete_registration, back;//registration details' handlers
 HWND cons, acc_interface, info_1, info_2, info_3, info_4, see_pasword,your_library,sign_Out,hBook_shelf,x_btn,new_file_btn,new_file,save_btn,file_name,paper_btn;
-HWND created_file_name, save_edited_file_,ppr;
+HWND created_file_name, save_edited_file_,ppr,hSavedPaper;
 
 filename f_1;
 
@@ -93,7 +93,7 @@ void your_lbrry(HWND);
 void save_file(HWND);
 void book_shelf(HWND,Account);
 void _new_file(HWND);
-void created_file(HWND);
+void created_file(HWND,int,int,int);
 void open_paper(HWND,Account);
 void save_edited_file(HWND, Account);
 void open_saved_file(HWND, Account);
